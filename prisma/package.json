@@ -1,0 +1,4 @@
+{
+  "main": "dist/webstudio-is-sdk-prisma.cjs.js",
+  "module": "dist/webstudio-is-sdk-prisma.esm.js"
+}

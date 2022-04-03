@@ -2,20 +2,26 @@
   "name": "@webstudio-is/sdk",
   "version": "0.1.22",
   "description": "Webstudio JavaScript / TypeScript API",
+  "main": "dist/webstudio-is-sdk.cjs.js",
+  "module": "dist/webstudio-is-sdk.esm.js",
   "author": "Webstudio <github@webstudio.is>",
   "repository": "git@github.com:webstudio-is/webstudio-sdk.git",
   "homepage": "https://webstudio.is",
   "scripts": {
-    "build": "yarn build:mdn-data && yarn build:prisma && yarn build:lib",
+    "build": "yarn build:mdn-data && yarn build:prisma && yarn build:dist",
     "build:mdn-data": "./bin/mdn-data.ts ./src/style",
     "build:prisma": "prisma format && prisma generate",
     "typecheck": "tsc --noEmit",
-    "build:lib": "rm -fr lib && tsc",
+    "build:dist": "yarn preconstruct build",
     "postinstall": "prisma generate",
     "checks": "yarn typecheck",
-    "prepublishOnly": "yarn typecheck && yarn build"
+    "prepublishOnly": "yarn checks && yarn build"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-react": "^7.16.7",
+    "@babel/preset-typescript": "^7.16.7",
+    "@preconstruct/cli": "^2.1.5",
     "@remix-run/react": "^1.2.3",
     "@remix-run/server-runtime": "^1.2.3",
     "@types/css-tree": "^1.0.7",
@@ -28,7 +34,7 @@
     "esbuild-node-loader": "^0.8.0",
     "mdn-data": "2.0.23",
     "react": "^17.0.2",
-    "typescript": "^4.6.2"
+    "typescript": "^4.6.3"
   },
   "peerDependencies": {
     "@remix-run/react": "^1.2.3",
@@ -43,14 +49,18 @@
     "prisma": "^3.10.0",
     "react-nano-state": "^0.4.0"
   },
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
   "files": [
     "README.md",
-    "lib/*",
+    "dist",
     "!*.test.*",
-    "prisma/*"
+    "prisma"
   ],
   "license": "MIT",
-  "private": false
+  "private": false,
+  "preconstruct": {
+    "entrypoints": [
+      "index.ts",
+      "prisma.ts"
+    ]
+  }
 }
